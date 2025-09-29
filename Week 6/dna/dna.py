@@ -17,13 +17,12 @@ def main():
     # 将数据库文件读入到变量
     with open(db_path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
-        # 数据库第一列应为 name，其余列为 STR 名称
         fieldnames = reader.fieldnames or []
         if len(fieldnames) < 2 or fieldnames[0] != "name":
             print("Invalid database header")
             sys.exit(1)
 
-        strs = fieldnames[1:]  # 动态兼容 small/large 两种数据库
+        strs = fieldnames[1:]
         people = []
         for row in reader:
             person = {"name": row["name"]}
@@ -31,7 +30,7 @@ def main():
                 person[s] = int(row[s])  # 将计数转为整数便于比较
             people.append(person)
 
-    # 将 DNA 序列文件读入到变量（整文件为一行字符串）
+    # 将 DNA 序列文件读入到变量
     with open(seq_path, "r", encoding="utf-8") as f:
         sequence = f.read().strip()
 
